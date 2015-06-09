@@ -7,6 +7,10 @@ app.set('port', (process.env.PORT || 5000));
 
 var sendLocation = {root: __dirname + '/public/'};
 
+app.get('/secret', function(req, res) {
+  res.sendfile('secret.html', sendLocation)
+})
+
 app.get('/', function(req, res) {
 res.status(200).sendFile('index.html', sendLocation);
 })
