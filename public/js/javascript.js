@@ -1,13 +1,35 @@
 $(function() {
+  var kittenList = [];
 
-  function Kitten(photo, votes) {
+  function Kitten(photo) {
     this.photo = photo;
     this.votes = 0;
   }
 
-  var kittenList = []
-  for(i=0; i<14; i++) {
-    kittenList.push(new Kitten("images/kitten" + i, 0));
+
+  $.ajax({
+    type: "GET",
+    url: "https://api.imgur.com/3/album/Vfs6C.json",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader("Authorization", "Client-ID 8c0750ed57af2d7");
+  }
+  })
+  .done(function(data) {
+    populateCats(data);
+    var start = new Init();
+
+  })
+  .fail(function() {
+    $('nav > p').text("I'm sorry, but the kittens you are trying to reach are currently unavailable. Please try again later.");
+  });
+
+
+
+  var populateCats = function(data) {
+    var imgurKittens = data.data;
+    for(var i=0; i<imgurKittens.images.length; i++) {
+      kittenList.push(new Kitten(imgurKittens.images[i].link));
+    }
   }
 
   var randomGenerator = function() {
@@ -16,17 +38,15 @@ $(function() {
   }
 
   function Init() {
-    var imgLeft, imgRight, randomA, randomB, winner, targetParent;
+    var imgLeft, imgRight, winner, targetParent;
     $('.votesDisplay').hide();
     $('.nextButton').hide();
 
-    randomA = randomGenerator();
+    imgLeft = randomGenerator();
     do {
-      randomB = randomGenerator();
-    } while(randomA == randomB);
+    imgRight = randomGenerator();
+    } while(imgLeft == imgRight);
 
-    imgLeft = randomA;
-    imgRight = randomB;
     $('#photoLeft').attr('src', imgLeft.photo);
     $('#photoRight').attr('src', imgRight.photo);
 
@@ -78,5 +98,4 @@ $(function() {
 
   }
 
-  var start = new Init();
 });
