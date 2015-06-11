@@ -18,7 +18,21 @@ header {
   font-size: 20px;
   margin-bottom: 10px;
 }
+
 nav, .photoContainer {
   text-align: center;
   margin-bottom: 10px;
+}
+
+.highlight {
+  border: 5px solid black;
+}
+
+.nextButtonContainer {
+  margin-left: 440px;
+}
+
+.loserOpacity {
+  opacity: 0.5;
+
 }

@@ -1,47 +1,72 @@
-function Kittens(catName, catVotes) {
-  this.catName = catName;
-  this.catVotes = catVotes;
+function Kitten(photo, votes) {
+  this.photo = photo;
+  this.votes = 0;
 }
 
-var kittenList = [];
-var kittenFileNaming = [];
-for(var i=0; i<14; i++) {
-  kittenFileNaming.push("images/kitten" + i);
-  kittenList.push(new Kittens(kittenFileNaming[i], 0));
+var kittenList = []
+for(i=0; i<14; i++) {
+  kittenList.push(new Kitten("images/kitten" + i, 0));
 }
 
-var generateRandom = function() {
-  return Math.floor(Math.random() * kittenList.length + 1);
+var randomGenerator = function() {
+  var rand = Math.floor(Math.random() * kittenList.length);
+  return kittenList[rand];
 }
 
-//generate and render two random cat pictures on page load
-$(function() {
-  var randomPhotoOne = generateRandom();
-  var randomPhotoTwo = generateRandom();
-  if(randomPhotoOne === randomPhotoTwo) {
+function Init() {
+  var imgLeft, imgRight, randomA, randomB, winner, targetParent;
+  $('.votesDisplay').hide();
 
-  }
+  randomA = randomGenerator();
+  do {
+    randomB = randomGenerator();
+  } while(randomA == randomB);
+
+  imgLeft = randomA;
+  imgRight = randomB;
+  $('#photoLeft').attr('src', imgLeft.photo);
+  $('#photoRight').attr('src', imgRight.photo);
+
+  //Vote listener
+  $('.catImage').on('click', function() {
+    //target element
+    var userTarget = $(this);
+    targetParent = userTarget.parent().attr('id');
+    //target img source
+    var targetSrc = userTarget.attr('src');
+    if (targetSrc == imgLeft.photo) {
+      imgLeft.votes++
+      winner = imgLeft;
+    } else {
+      imgRight.votes++
+      winner = imgRight;
+    }
+    //voteCountLeft/Right
+    $('#voteCountLeft').text(imgLeft.votes);
+    $('#voteCountRight').text(imgRight.votes);
+    $('.votesDisplay').show();
+  });
 
 
+  //Next image button
+  $('.nextButton').on('click', function() {
+    var newRand;
+    $('.votesDisplay').hide();
 
+    do {
+      newRand = randomGenerator();
+    } while(newRand == winner);
 
-  if(randomPhotoTwo !== randomPhotoOne) {
-  $('#catPhotoOne img').attr('src', kittenList[randomPhotoOne].catName);
-  $('#catPhotoTwo img').attr('src', kittenList[randomPhotoTwo].catName);
-} else if(randomPhotoTwo === 14) {
-  randomPhotoTwo--
-  $('#catPhotoOne img').attr('src', kittenList[randomPhotoOne].catName);
-  $('#catPhotoTwo img').attr('src', kittenList[randomPhotoTwo].catName);
-} else {
-  randomPhotoTwo++
-  $('#catPhotoOne img').attr('src', kittenList[randomPhotoOne].catName);
-  $('#catPhotoTwo img').attr('src', kittenList[randomPhotoTwo].catName);
+    if (targetParent == "catPhotoLeft") {
+      imgRight = newRand;
+      $('#photoRight').attr('src', imgRight.photo);
+    } else {
+      imgLeft = newRand;
+      $('#photoLeft').attr('src', imgLeft.photo);
+    }
+
+  })
+
 }
 
-});
-
-$('button').on('click', function() {
-  var loserKitten = ((this.id == 'buttonOne') ? 'buttonTwo' : 'buttonOne');
-  console.log(this.id);
-
-});
+var start = new Init();
