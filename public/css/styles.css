@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, Verdana;
+  color: #EFECCA;
+  background: #002f2f;
+}
+header, nav, section {
+  background: #046380;
+  border: 2px solid #a7a37e;
+  border-radius: 3px;
+}
+
+header {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+nav, .photoContainer {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.nextButtonContainer {
+  margin-left: 440px;
+}
+
+.loserOpacity {
+  opacity: 0.25;
+}
+
+span {
+  font-size: 20px;
+}
+
+.nextButton {
+height: 30px;
+width: 100px;
+border-radius: 3px;
+}
