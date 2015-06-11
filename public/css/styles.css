@@ -24,15 +24,20 @@ nav, .photoContainer {
   margin-bottom: 10px;
 }
 
-.highlight {
-  border: 5px solid black;
-}
-
 .nextButtonContainer {
   margin-left: 440px;
 }
 
 .loserOpacity {
-  opacity: 0.5;
+  opacity: 0.25;
+}
 
+span {
+  font-size: 20px;
+}
+
+.nextButton {
+height: 30px;
+width: 100px;
+border-radius: 3px;
 }
